@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <string.h>
+#define MAX_ENTRIES 10
+#define PHONE_LENGTH 15
+#define NAME_LENGTH 50
+#define AREA_LENGTH 100
+// This is function to validate phone number format
+int validatePhoneNumber(const char *phone)
+{
+    if (strlen(phone) != 14)
+    {
+        return 0;
+    }
+    if (phone[0] != '+' || phone[1] != '9' || phone[2] != '1' || phone[3] != '-')
+    {
+        return 0;
+    }
+    for (int i = 4; i < 14; i++)
+    {
+        if (phone[i] < '0' || phone[i] > '9')
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+// This is function to search for a phone number
+void searchPhoneNumber(const char phone[MAX_ENTRIES][PHONE_LENGTH],
+                       const char name[MAX_ENTRIES][NAME_LENGTH],
+                       const char area[MAX_ENTRIES][AREA_LENGTH],
+                       const char *inputPhone)
+{
+    for (int i = 0; i < MAX_ENTRIES; i++)
+    {
+        if (strcmp(phone[i], inputPhone) == 0)
+        {
+            printf("Found: %s\n", name[i]);
+            printf("Area: %s\n", area[i]);
+            return;
+        }
+    }
+    printf("Phone number not found in the directory.\n");
+}
+int main()
+{
+    char phone[MAX_ENTRIES][PHONE_LENGTH] = {
+        "+91-9988776655", "+91-8877665544", "+91-7766554433",
+        "+91-6655443322", "+91-9977665544", "+91-1234567890",
+        "+91-2345678901", "+91-3456789012", "+91-4567890123",
+        "+91-5678901234"
+    };
+    char name[MAX_ENTRIES][NAME_LENGTH] = {
+        "Ananya Sharma", "Priya Patel", "Sneha Verma",
+        "Kavya Rao", "Deepika Mehta", "Riya Gupta",
+        "Nisha Iyer", "Sakshi Desai", "Neha Yadav",
+        "Meera Deshmukh"
+    };
+    char area[MAX_ENTRIES][AREA_LENGTH] = {
+        "Flat No. 101, Sai Samarth Residency, Near Ganesh Mandir, Kothrud, Pune",
+        "Flat No. 302, Silver Oak Apartments, Near Balewadi Stadium, Baner, Pune",
+        "Flat No. 4, Shree Vishwa Residency, Near Erandwane Bus Stop, Erandwane, Pune",
+        "Flat No. 5, Shree Samarth Krupa, Near Keshav Nagar, Sadashiv Peth, Pune",
+        "Flat No. 201, Akshay Residency, Near Bavdhan Chowk, Bavdhan, Pune",
+        "Flat No. 101, Sai Snehdeep Apartment, Near Phoenix Marketcity, Viman Nagar, Pune",
+        "Flat No. 403, Prithvi Residency, Near Aundh Medical Foundation, Aundh, Pune",
+        "Flat No. 104, Omkar Residency, Near Warje Flyover, Warje, Pune",
+        "Flat No. 301, Clover Highland, Near Aga Khan Palace, Kalyani Nagar, Pune",
+        "Flat No. 102, Suryodaya Society, Near Katraj Dairy, Katraj, Pune"
+    };
+    char inputPhone[PHONE_LENGTH];
+    printf("HEALTHCARE SERVICE RECORDS:\n");
+    printf("(FOR EMERGENCY OR PATIENT CONTACT)\n");
+    printf("Enter phone number (format: +91-XXXXXXXXXXX): ");
+    scanf("%14s", inputPhone);
+    if (!validatePhoneNumber(inputPhone))
+    {
+        printf("Invalid phone number format. Please use +91-XXXXXXXXXXX.\n");
+        return 1;
+    }
+    searchPhoneNumber(phone, name, area, inputPhone);
+    return 0;
+}
